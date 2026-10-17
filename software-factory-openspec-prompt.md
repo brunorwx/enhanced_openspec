@@ -36,11 +36,12 @@ flowchart TD
     approver -->|APPROVE| merge["merge to main"]
     approver -->|ESCALATE| human["needs-human"]
 
-    wait -->|any CHANGES: route fixes to component owners (max 2 rounds)| implement
+    wait --> implement
+    note right of wait: any CHANGES: route fixes to component owners (max 2 rounds)
     human -. "/factory approve" .-> human
 ```
 
-OpenSpec owns the change proposal and implementation checklist. The plan stage creates or updates the active OpenSpec change using the repository's configured workflow (normally proposal, spec deltas,[...] 
+OpenSpec owns the change proposal and implementation checklist. The plan stage creates or updates the active OpenSpec change using the repository's configured workflow (normally proposal, spec del[...]
 
 ## Target file system
 
@@ -128,17 +129,17 @@ The tasks in `tasks.md` are the implementation checklist. Do not copy them into 
 - OpenSpec artifacts are the source of truth for proposal, requirements, design, and implementation tasks. Never create duplicate factory specs, backlogs, or task lists.
 - Use the configured OpenSpec schema and installed workflow. Follow its artifact instructions and validation; do not hard-code assumptions about optional artifacts.
 - Review the proposal, specs, design when present, and tasks before implementation. Do not dispatch implementation agents until the plan is accepted for implementation.
-- Every implementation task must be assigned to an accountable specialist agent or the integration lead. Agents get context from OpenSpec and repository files, not undocumented conversation context.
+- Every implementation task must be assigned to an accountable specialist agent or the integration lead. Agents get context from OpenSpec and repository files, not undocumented conversation conte[...]
 - Define interfaces and file ownership before parallel work. Avoid overlapping edits; sequence dependent work and integrate subagent changes before marking OpenSpec tas[...]
 - Each review starts with `VERDICT: PASS` or `CHANGES`; `decision.md` starts with `APPROVE` or `ESCALATE`.
 - The integration lead creates or uses a feature branch (`factory/<change-name>`). Implementation subagents work only on their assigned OpenSpec task IDs and owned files/components.
-- Validate the full stack across its boundaries: for example, client-to-API behavior, API-to-data behavior, migrations, auth, and the built application. Use the repository's documented test command an[...]
-- For AI/agent changes, validate the specified behavior with relevant deterministic tests or evaluations, including failure paths and tool boundaries where applicable. Do not treat a successful model [...]
+- Validate the full stack across its boundaries: for example, client-to-API behavior, API-to-data behavior, migrations, auth, and the built application. Use the repository's documented test comma[...]
+- For AI/agent changes, validate the specified behavior with relevant deterministic tests or evaluations, including failure paths and tool boundaries where applicable. Do not treat a successful m[...]
 - The orchestrator updates OpenSpec task checkboxes only after integration and verification. Never mark a task complete unless its work is done.
 - WAIT FOR ALL: a review round is done only when every applicable reviewer's file exists in that round folder. Never start a rework cycle mid-round.
-- Give each implementation agent a clear name tied to the change and role (for example, `frontend-<change-name>` or `ai-systems-<change-name>`). Keep the same agents for follow-up fixes when possible,[...]
+- Give each implementation agent a clear name tied to the change and role (for example, `frontend-<change-name>` or `ai-systems-<change-name>`). Keep the same agents for follow-up fixes when poss[...]
 - Allow at most two rework rounds. If issues remain, escalate to a human.
-- After all reviews pass, verify that the implementation matches the OpenSpec requirements and all applicable tasks are complete. Do not archive the OpenSpec change until implementation and reviews ar[...]
+- After all reviews pass, verify that the implementation matches the OpenSpec requirements and all applicable tasks are complete. Do not archive the OpenSpec change until implementation and revie[...]
 - Only `/factory approve <change-name>` may merge a job in `needs-human` into `main`.
 
 ## Commands
