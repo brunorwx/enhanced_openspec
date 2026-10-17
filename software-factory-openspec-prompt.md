@@ -14,34 +14,53 @@ Before implementing the factory, inspect the repository for OpenSpec's configura
 
 ```mermaid
 flowchart TD
-    feature --> plan["OpenSpec proposal\nspecs · design · tasks"]
-    plan --> planReview["Review OpenSpec plan\nbefore implementation"]
-    planReview --> dispatch["Map OpenSpec tasks\nto specialist agents"]
-    dispatch --> implement["Parallel implementation\nwhen tasks are independent"]
-    implement --> integrate["Integration lead\nresolve contracts and run app"]
-    integrate --> security["security review"]
-    integrate --> ux["UX and accessibility review"]
-    integrate --> ui["UI design review"]
-    integrate --> code["code and architecture review"]
-    integrate --> aiReview["AI quality and safety review\nif AI behavior changes"]
+    feature[Feature]
+    plan["OpenSpec proposal\nspecs · design · tasks"]
+    planReview["Review OpenSpec plan\nbefore implementation"]
+    dispatch["Map OpenSpec tasks\nto specialist agents"]
+    implement["Parallel implementation\nwhen tasks are independent"]
+    integrate["Integration lead\nresolve contracts and run app"]
+    security["Security review"]
+    ux["UX & accessibility review"]
+    ui["UI design review"]
+    code["Code & architecture review"]
+    aiReview["AI quality & safety review\n(if AI behavior changes)"]
 
-    security --> wait["WAIT FOR ALL\napplicable reviews in"]
+    wait["WAIT FOR ALL\napplicable reviews"]
+    verify["Verify OpenSpec requirements\nand task completion"]
+    approver["Approver\nopus"]
+    merge["Merge to main"]
+    human["Needs human"]
+
+    feature --> plan
+    plan --> planReview
+    planReview --> dispatch
+    dispatch --> implement
+    implement --> integrate
+    integrate --> security
+    integrate --> ux
+    integrate --> ui
+    integrate --> code
+    integrate --> aiReview
+
+    security --> wait
     ux --> wait
     ui --> wait
     code --> wait
     aiReview --> wait
 
-    wait -->|all PASS| verify["verify OpenSpec requirements\nand task completion"]
-    verify --> approver["approver\nopus"]
-    approver -->|APPROVE| merge["merge to main"]
-    approver -->|ESCALATE| human["needs-human"]
+    wait --> verify
+    verify --> approver
+    approver --> merge
+    approver --> human
+    human --> merge
 
-    wait --> implement
-    note right of wait: any CHANGES: route fixes to component owners (max 2 rounds)
-    human -. "/factory approve" .-> human
+    rework["Any CHANGES:\nroute fixes to component owners\n(max 2 rounds)"]
+    wait --> rework
+    rework --> implement
 ```
 
-OpenSpec owns the change proposal and implementation checklist. The plan stage creates or updates the active OpenSpec change using the repository's configured workflow (normally proposal, spec del[...]
+OpenSpec owns the change proposal and implementation checklist. The plan stage creates or updates the active OpenSpec change using the repository's configured workflow (normally proposal, spec deltas,[...] 
 
 ## Target file system
 
